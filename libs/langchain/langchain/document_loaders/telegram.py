@@ -108,6 +108,8 @@ class TelegramChatApiLoader(BaseLoader):
         """Fetch data from Telegram API and save it as a JSON file."""
         from telethon.sync import TelegramClient
 
+        url = f"https://t.me/c/{self.chat_entity.id}/{message.id}"
+
         data = []
         async with TelegramClient(self.username, self.api_id, self.api_hash) as client:
             async for message in client.iter_messages(self.chat_entity):
@@ -121,6 +123,7 @@ class TelegramChatApiLoader(BaseLoader):
                         "message.id": message.id,
                         "is_reply": is_reply,
                         "reply_to_id": reply_to_id,
+                        "url": url,
                     }
                 )
 
